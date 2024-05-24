@@ -12,9 +12,10 @@ class MyCatalog extends StatefulWidget {
 class _MyCatalogState extends State<MyCatalog> {
   List<Item> productsCatalog = [
     Item("Shampoo", 10.00, 2),
-    Item("Soap", 12, 3),
-    Item("Toothpaste", 40, 3),
+    Item("Soap", 12.00, 3),
+    Item("Toothpaste", 40.00, 3),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,13 +24,13 @@ class _MyCatalogState extends State<MyCatalog> {
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
                 leading: const Icon(Icons.star),
-                title: Text("${productsCatalog[index].name} -${productsCatalog[index].price}"),
+                title: Text('${productsCatalog[index].name} (${productsCatalog[index].price.toString()})'),
                 trailing: TextButton(
                   child: const Text("Add"),
                   onPressed: () {
                     context.read<ShoppingCart>().addItem(productsCatalog[index]);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("${productsCatalog[index].name}added!"),
+                      content: Text("${productsCatalog[index].name} added!"),
                       duration: const Duration(seconds: 1, milliseconds: 100),
                     ));
                   },

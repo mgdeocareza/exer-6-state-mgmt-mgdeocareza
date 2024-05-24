@@ -12,18 +12,31 @@ class MyCart extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          getItems(context),
-          computeCost(),
-          const Divider(height: 4, color: Colors.black),
-          Flexible(
-              child: Center(
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            ElevatedButton(
-                onPressed: () {
-                  context.read<ShoppingCart>().removeAll();
-                },
-                child: const Text("Reset")),
-          ]))),
+          Expanded(child: getItems(context)),
+          SizedBox(
+            height: 100,
+            child: Column(children: [
+              Expanded(child: computeCost()),
+              getItems(context).runtimeType == Align // it means the retrieved from getItems is the Align with Text('No Items to Checkout!')
+                  ? ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/checkout");
+                      },
+                      child: const Text("Checkout"))
+                  : Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            context.read<ShoppingCart>().removeAll();
+                          },
+                          child: const Text("Reset")),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, "/checkout");
+                          },
+                          child: const Text("Checkout")),
+                    ])
+            ]),
+          ),
           TextButton(
             child: const Text("Go back to Product Catalog"),
             onPressed: () {
@@ -39,7 +52,10 @@ class MyCart extends StatelessWidget {
     List<Item> products = context.watch<ShoppingCart>().cart;
     String productname = "";
     return products.isEmpty
-        ? const Text('No Items yet!')
+        ? const Align(
+            alignment: Alignment.center,
+            child: Text('No Items Yet!'),
+          )
         : Expanded(
             child: Column(
             children: [
@@ -49,7 +65,7 @@ class MyCart extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     leading: const Icon(Icons.food_bank),
-                    title: Text(products[index].name),
+                    title: Text('${products[index].name} (${products[index].price.toString()})'),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () {
@@ -77,7 +93,10 @@ class MyCart extends StatelessWidget {
 
   Widget computeCost() {
     return Consumer<ShoppingCart>(builder: (context, cart, child) {
-      return Text("Total: ${cart.cartTotal}");
+      return Text(
+        "Total: ${cart.cartTotal}",
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      );
     });
   }
 }
