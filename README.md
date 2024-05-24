@@ -14,7 +14,7 @@ Application Screenshots:
     <img src="App-Screenshot-3.jpg" alt="Screenshot 3" width="200"/>
     <img src="App-Screenshot-4.jpg" alt="Screenshot 4" width="200"/>
 
-Things I did in the code: <br>t5
+Things I did in the code: <br>
     I applied State Management concepts in Flutter. <br>
 
 Challenges when developing the application: <br>
